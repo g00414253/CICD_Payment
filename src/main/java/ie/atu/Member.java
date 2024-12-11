@@ -1,8 +1,6 @@
 package ie.atu;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,4 +17,10 @@ public class Member {
     private String emailAddress;
     @Min(value = 16,message = "Members must be over 16")
     private int age;
+    @NotBlank(message = "Membership status cannot be blank")
+    @Pattern(regexp = "Active|Expired", message = "Membership status must be 'Active' or 'Expired'")
+    private String membershipStatus;
+    @Min(value = 1, message = "Membership duration must be at least 1 month")
+    @Max(value = 24, message = "Membership duration must not exceed 24 months")
+    private int membershipDuration;
 }
