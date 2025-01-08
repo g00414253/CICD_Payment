@@ -17,10 +17,10 @@ public class PaymentController {
     @PostMapping("/processPayment/{memberID}/{amount}")
     public String processPayment(@PathVariable int memberID, @PathVariable double amount) {
         try {
-            // Fetch member details from Member Service
-            Member member = memberClient.getMemberById(memberID);
-
             if (amount > 0) {
+                // Fetch member details from Member Service
+                Member member = memberClient.getMemberById(memberID);
+
                 // Delegate membership updates to Membership Service
                 Membership updatedMembership = membershipClient.updateMembership(memberID, amount);
 
@@ -33,13 +33,18 @@ public class PaymentController {
                 );
             } else {
                 return String.format(
-                        "Payment Failed for %s (Member ID: %d). Amount must be greater than zero.",
-                        member.getName(),
+                        "Payment Failed for Member ID: %d. Amount must be greater than zero.",
                         memberID
                 );
             }
         } catch (Exception e) {
-            return String.format("Error processing payment for Member ID: %d. Details: %s", memberID, e.getMessage());
+            // Escape % characters in exception message
+            String escapedMessage = e.getMessage().replace("%", "%%");
+            return String.format(
+                    "Error processing payment for Member ID: %d. Details: %s",
+                    memberID,
+                    escapedMessage
+            );
         }
     }
 }
