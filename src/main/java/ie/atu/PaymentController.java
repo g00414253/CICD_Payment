@@ -45,5 +45,5 @@ public class PaymentController {
 }
 
 /*  TESTING TALEND API ENTRIES
-    http://localhost:8081/payment/processPayment/42/50
+    http://localhost:8081/payment/processPayment/3/50.0
  */
